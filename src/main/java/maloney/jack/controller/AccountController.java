@@ -3,16 +3,21 @@ package maloney.jack.controller;
 import maloney.jack.domain.Account;
 import maloney.jack.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class AccountController {
 
-    @Autowired
-    AccountRepository accountRepository;
+    private AccountRepository accountRepository;
 
-    @RequestMapping(method= RequestMethod.GET, value="/accounts")
-    public Iterable<Account> account() {
+    @Autowired
+    public AccountController(AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
+    }
+
+    @RequestMapping(method= RequestMethod.GET, value="/accounts", produces= MediaType.APPLICATION_JSON_VALUE)
+    public Iterable<Account> findAll() {
         return null;
     }
 

@@ -1,5 +1,6 @@
 package maloney.jack.domain;
 
+import java.util.Objects;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -13,12 +14,12 @@ public class Account {
 
     private String secondName;
 
-    private Double accountNumber;
+    private Integer accountNumber;
 
     public Account() {
     }
 
-    public Account(String firstName, String secondName, Double accountNumber) {
+    public Account(String firstName, String secondName, Integer accountNumber) {
         this.firstName = firstName;
         this.secondName = secondName;
         this.accountNumber = accountNumber;
@@ -48,11 +49,37 @@ public class Account {
         this.secondName = secondName;
     }
 
-    public Double getAccountNumber() {
+    public Integer getAccountNumber() {
         return accountNumber;
     }
 
-    public void setAccountNumber(Double accountNumber) {
+    public void setAccountNumber(Integer accountNumber) {
         this.accountNumber = accountNumber;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Account account = (Account) o;
+        return Objects.equals(id, account.id)
+                && Objects.equals(firstName, account.firstName)
+                && Objects.equals(secondName, account.secondName)
+                && Objects.equals(accountNumber, account.accountNumber);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, secondName, accountNumber);
+    }
+
+    @Override
+    public String toString() {
+        return "Account{"
+                + " id='" + id + '\''
+                + ", firstName='" + firstName + '\''
+                + ", secondName='" + secondName + '\''
+                + ", accountNumber=" + accountNumber
+                + '}';
     }
 }
