@@ -18,17 +18,20 @@ public class AccountController {
 
     @RequestMapping(method= RequestMethod.GET, value="/accounts", produces= MediaType.APPLICATION_JSON_VALUE)
     public Iterable<Account> findAll() {
-        return null;
+        return accountRepository.findAll();
     }
 
     @RequestMapping(method=RequestMethod.POST, value="/accounts")
     public String save(@RequestBody Account account) {
-        return null;
-    }
+        accountRepository.save(account);
 
+        return "Account has been successfully added";
+    }
 
     @RequestMapping(method=RequestMethod.DELETE, value="/accounts/{id}")
     public String delete(@PathVariable String id) {
-       return null;
+       accountRepository.deleteById(id);
+
+       return "Account successfully deleted";
     }
 }
