@@ -80,4 +80,14 @@ public class AccountApiIntegrationTest {
 
         assertThat(((MockHttpServletResponse) response).getContentAsString()).isEqualTo("Account successfully deleted");
     }
+
+    @Test
+    public void givenADeleteAccountRequestForAnAccountThatDoesNotExist_shouldReturnA400StatusWithErrorMessage() throws Exception {
+        MockHttpServletRequestBuilder request = delete("/accounts/2").contentType(APPLICATION_JSON);
+
+        HttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
+
+        assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
+        assertThat(((MockHttpServletResponse) response).getErrorMessage()).isEqualTo("Account could not be deleted: given Account ID does not exist");
+    }
 }
