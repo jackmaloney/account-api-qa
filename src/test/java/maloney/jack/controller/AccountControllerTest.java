@@ -1,8 +1,7 @@
 package maloney.jack.controller;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ import org.mockito.Mock;
 public class AccountControllerTest {
 
     @Mock
-    AccountRepository repository;
+    AccountRepository accountRepository;
 
     AccountController controller;
 
@@ -26,7 +25,7 @@ public class AccountControllerTest {
     @Before
     public void setup() {
         initMocks(this);
-        controller = new AccountController(repository);
+        controller = new AccountController(accountRepository);
 
         account1 = new Account("Harry", "Williams", 12345678);
         account2 = new Account("Mary", "Piper", 54545454);
@@ -38,28 +37,32 @@ public class AccountControllerTest {
         accountList.add(account1);
         accountList.add(account2);
 
-        when(repository.findAll()).thenReturn(accountList);
+        when(accountRepository.findAll()).thenReturn(accountList);
 
         List<Account> result = (List<Account>) controller.findAll();
 
         assertEquals(accountList, result);
+        verify(accountRepository, times(1)).findAll();
     }
 
     @Test
     public void givenAPostAccountRequest_createTheAccount() {
-        when(repository.save(account1)).thenReturn(account1);
+        when(accountRepository.save(account1)).thenReturn(account1);
 
         String result = controller.save(account1);
 
         assertEquals("Account has been successfully added", result);
+        verify(accountRepository, times(1)).save(account1);
     }
 
     @Test
     public void givenADeleteAccountRequest_deleteTheGivenAccount() {
-        doNothing().when(repository).delete(account1);
+        account1.setId("1");
+        doNothing().when(accountRepository).delete(account1);
 
         String result = controller.delete(account1.getId());
 
         assertEquals("Account successfully deleted", result);
+        verify(accountRepository, times(1)).deleteById("1");
     }
 }
