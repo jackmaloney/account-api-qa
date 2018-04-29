@@ -1,22 +1,22 @@
 # Account API 
 
-##Purpose
+## Purpose
 Account API application is a spring boot based application used create, find and delete accounts.
 
-###Prerequisites
+### Prerequisites
 
 - JDK 8
 
-##Database
+## Database
 The application comes packaged with a Mongo database. To import some test data run the following command from the root of the project:
 ```
 mongoimport -d account-api -c accounts src/test/resources/test-data.json --jsonArray
 
 ```
 
-##Building and deploying the application
+## Building and deploying the application
   
-###Building the application
+### Building the application
 
 To build the project execute the following command:
 
@@ -32,7 +32,7 @@ Run the application by executing:
 ./gradlew bootRun
 ```
 
-###Unit tests
+### Unit tests
 
 To run all unit tests execute the following command:
 
@@ -40,8 +40,8 @@ To run all unit tests execute the following command:
 ./gradlew test
 ```
 
-##API
-###Create
+## API
+### Create
 To create an account:
 
 `POST` to the `/accounts` endpoint:
@@ -54,11 +54,11 @@ To create an account:
 }
 ```
 
-###Find all
+### Find all
 To find all accounts:
 
 `GET` to the `/accounts` endpoint:
 
-###Delete
+### Delete
 To delete an account:
 `DELETE` to the `/accounts/{$id}` endpoint using the id of the account to delete
