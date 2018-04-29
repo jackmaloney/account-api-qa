@@ -1,0 +1,12 @@
+[
+  {
+    "firstName": "Andrew",
+    "secondName": "Cowell",
+    "accountNumber": 123456
+  },
+  {
+    "firstName": "Mandy",
+    "secondName": "Garwood",
+    "accountNumber": 4324234
+  }
+]
