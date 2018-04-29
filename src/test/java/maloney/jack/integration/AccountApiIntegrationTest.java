@@ -4,9 +4,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
+import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 import maloney.jack.controller.AccountController;
+import maloney.jack.domain.Account;
 import maloney.jack.repository.AccountRepository;
+import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -72,7 +75,16 @@ public class AccountApiIntegrationTest {
 
     @Test
     public void givenADeleteAccountRequest_shouldReturnASuccessMessage() throws Exception {
-        MockHttpServletRequestBuilder request = delete("/accounts/1").contentType(APPLICATION_JSON);
+        String jsonString = "{\"firstName\" : \"Harry\", \"secondName\" : \"William\", \"accountNumber\" : \"1233456\"}";
+
+        MockHttpServletRequestBuilder createRequest = post("/accounts").contentType(APPLICATION_JSON).content(jsonString);
+        mockMvc.perform(createRequest).andReturn().getResponse();
+
+        Iterable<Account> accountList = controller.findAll();
+
+        Account account = Lists.newArrayList(accountList).get(0);
+
+        MockHttpServletRequestBuilder request = delete("/accounts/" + account.getId()).contentType(APPLICATION_JSON);
 
         HttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
 

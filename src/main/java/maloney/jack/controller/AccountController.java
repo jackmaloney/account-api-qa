@@ -3,6 +3,7 @@ package maloney.jack.controller;
 import static org.springframework.http.ResponseEntity.ok;
 
 import maloney.jack.domain.Account;
+import maloney.jack.exception.DeleteAccountException;
 import maloney.jack.exception.InvalidAccountJsonException;
 import maloney.jack.repository.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,9 +38,13 @@ public class AccountController {
     }
 
     @RequestMapping(method=RequestMethod.DELETE, value="/accounts/{id}")
-    public String delete(@PathVariable String id) {
-       accountRepository.deleteById(id);
+    public ResponseEntity<String> delete(@PathVariable String id) throws DeleteAccountException {
 
-       return "Account successfully deleted";
+        if (accountRepository.findById(id).isPresent()) {
+            accountRepository.deleteById(id);
+            return ok().body("Account successfully deleted");
+        } else {
+            throw new DeleteAccountException();
+        }
     }
 }

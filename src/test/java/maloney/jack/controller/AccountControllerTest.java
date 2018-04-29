@@ -6,7 +6,9 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import maloney.jack.domain.Account;
+import maloney.jack.exception.DeleteAccountException;
 import maloney.jack.exception.InvalidAccountJsonException;
 import maloney.jack.repository.AccountRepository;
 import org.junit.Before;
@@ -58,13 +60,16 @@ public class AccountControllerTest {
     }
 
     @Test
-    public void givenADeleteAccountRequest_deleteTheGivenAccount() {
+    public void givenADeleteAccountRequest_deleteTheGivenAccount() throws DeleteAccountException {
         account1.setId("1");
+
+        when(accountRepository.findById("1")).thenReturn(Optional.of(account1));
+
         doNothing().when(accountRepository).delete(account1);
 
-        String result = controller.delete(account1.getId());
+        ResponseEntity<String> result = controller.delete(account1.getId());
 
-        assertEquals("Account successfully deleted", result);
+        assertEquals("Account successfully deleted", result.getBody());
         verify(accountRepository, times(1)).deleteById("1");
     }
 }
