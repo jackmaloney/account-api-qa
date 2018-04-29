@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import javax.servlet.http.HttpServletResponse;
 import maloney.jack.controller.AccountController;
 import maloney.jack.repository.AccountRepository;
@@ -32,8 +31,6 @@ public class AccountApiIntegrationTest {
     @Autowired
     AccountRepository accountRepository;
 
-    ObjectMapper mapper = new ObjectMapper();
-
     @Before
     public void setup() {
         controller = new AccountController(accountRepository);
@@ -52,7 +49,6 @@ public class AccountApiIntegrationTest {
     @Test
     public void givenAValidPostAccountRequest_shouldReturnASuccessMessage() throws Exception {
         String jsonString = "{\"firstName\" : \"Harry\", \"secondName\" : \"William\", \"accountNumber\" : \"1233456\"}";
-
 
         MockHttpServletRequestBuilder request = post("/accounts").contentType(APPLICATION_JSON).content(jsonString);
 
