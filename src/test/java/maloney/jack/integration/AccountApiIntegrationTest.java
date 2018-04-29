@@ -59,7 +59,7 @@ public class AccountApiIntegrationTest {
     }
 
     @Test
-    public void givenAnInvalidPostAccountRequest_shouldReturnA400Status() throws Exception {
+    public void givenAnInvalidPostAccountRequest_shouldReturnA400StatusWithErrorMessage() throws Exception {
         String jsonString = "{\"invalid\" : \"Harry\"}";
 
         MockHttpServletRequestBuilder request = post("/accounts").contentType(APPLICATION_JSON).content(jsonString);
@@ -67,7 +67,7 @@ public class AccountApiIntegrationTest {
         HttpServletResponse response = mockMvc.perform(request).andReturn().getResponse();
 
         assertThat(response.getStatus()).isEqualTo(HttpStatus.BAD_REQUEST.value());
-        assertThat(((MockHttpServletResponse) response).getContentAsString()).isEqualTo("Account could not be added");
+        assertThat(((MockHttpServletResponse) response).getErrorMessage()).isEqualTo("Account could not be added: given Json is invalid");
     }
 
     @Test

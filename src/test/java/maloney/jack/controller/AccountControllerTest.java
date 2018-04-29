@@ -7,10 +7,12 @@ import static org.mockito.MockitoAnnotations.initMocks;
 import java.util.ArrayList;
 import java.util.List;
 import maloney.jack.domain.Account;
+import maloney.jack.exception.InvalidAccountJsonException;
 import maloney.jack.repository.AccountRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.springframework.http.ResponseEntity;
 
 public class AccountControllerTest {
 
@@ -46,12 +48,12 @@ public class AccountControllerTest {
     }
 
     @Test
-    public void givenAPostAccountRequest_createTheAccount() {
+    public void givenAPostAccountRequest_createTheAccount() throws InvalidAccountJsonException {
         when(accountRepository.save(account1)).thenReturn(account1);
 
-        String result = controller.save(account1);
+        ResponseEntity<String> result = controller.save(account1);
 
-        assertEquals("Account has been successfully added", result);
+        assertEquals("Account has been successfully added", result.getBody());
         verify(accountRepository, times(1)).save(account1);
     }
 
