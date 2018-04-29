@@ -6,6 +6,7 @@ Account API application is a spring boot based application used create, find and
 ### Prerequisites
 
 - JDK 8
+- MongoDB - install here: https://docs.mongodb.com/manual/administration/install-community/
 
 ## Database
 The application comes packaged with a Mongo database. To import some test data run the following command from the root of the project:
